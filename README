@@ -1,0 +1,22 @@
+zim and wikidot format mapping
+
+Heading :        zim        ->  wikidot
+	H1	:	====== a ======	->	+ a
+	H2	:	===== b =====	->	++ b
+	H3	:	==== c ====		->	+++ c
+	H4	:	=== d ===		->	++++ d
+	H5	:	== e ==			->	+++++ e
+	H6	:	None			->	++++++ f
+
+Format - zim				->	wikidot
+		**Bold**			->	**Bold**
+		//Italic//			->	//Italic//
+		__Mark__			->	__UnderLine__
+		~~strike~~			->	--strikethrough text--
+		[[LINK_TO|TEXT]]	->	[LINK_TO TEXT]
+		'''
+		Quoted Text			->	> quoted text
+		'''
+		_{Subscript}		->	^^superscript^^
+		^{Superscript}		->	,,subscript,,
+
