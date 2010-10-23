@@ -18,11 +18,9 @@ def read_config(config_file):
             if (re.match(r'^\s*$', l)):
                 continue
 
-            m = re.match(r'\s*([A-Za-z_]+)\s*=(.*)$', l)
+            m = re.match(r'\s*([A-Za-z_-]+)\s*[:=](.*)$', l)
 
-            if not m:
-                # FIXME: handle config error
-                raise NotImplementedError()
+            assert m, 'config file error'
 
             config[m.group(1)] = m.group(2).strip()
 
@@ -31,15 +29,8 @@ def read_config(config_file):
 def get_all_config(zim_root):
     directory = os.path.join(zim_root, CONFIG_DIRECTORY)
 
-    if not os.path.exists(directory):
-        # FIXME: create config directory
-        raise NotImplementedError()
-
-    if not os.path.isdir(directory):
-        # FIXME: What now?
-        raise NotImplementedError()
-
-    # FIXME: Use default config if there is none
+    assert os.path.exists(directory), 'no config directory'
+    assert os.path.isdir(directory), 'no config directory'
 
     all_config = []
 
