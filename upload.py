@@ -56,14 +56,13 @@ def convert_zim_to_wikidot(zim):
                     # FIXME: How to handle unbalance headline?
                     assert False, 'unbalance headline tag'
             else:
-                headline = 7 - count
                 wikidot += '+' * headline
-                pass
+                headline = 7 - count
 
         elif content[i] == '~':
             if i + 1 < len(content) and content[i + 1] == '~':
-                i += 2
                 wikidot += '--'
+                i += 2
             else:
                 wikidot += content[i]
                 i += 1
