@@ -69,8 +69,26 @@ def convert_zim_to_wikidot(zim):
 
         elif content[i] == '[':
             # FIXME: implement link
-            wikidot += content[i]
+            if i < len(content) and content[i + 1] == '[':
+                wikidot += '['
+                i += 2
+                link = True
+            else:
+                wikidot += content[i]
+                i += 1
+
+        elif content[i] == '|' and link:
+            wikidot += ' '
             i += 1
+
+        elif content[i] == ']' and link:
+            if i + 1 < len(content) and content[i + 1] == ']':
+                link = False
+                wikidot += ']'
+                i += 2
+            else:
+                wikidot += content[i]
+                i += 1
 
         elif content[i] == "'":
             # FIXME: implement quoted
