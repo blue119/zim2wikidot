@@ -18,7 +18,7 @@ def read_config(config_file):
             if (re.match(r'^\s*$', l)):
                 continue
 
-            m = re.match(r'\s*([A-Za-z_-]+)\s*[:=](.*)$', l)
+            m = re.match(r'\s*([0-9A-Za-z_-]+)\s*[:=](.*)$', l)
 
             assert m, 'config file error'
 
