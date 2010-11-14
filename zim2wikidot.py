@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
+#
+# Author: Chun-Yu Lee (Mat) <matlinuxer2@gmail.com>
+#
 
 import sys
 import os
@@ -10,9 +13,22 @@ import subprocess
 import tempfile
 import shutil
 import pdb
-import zim.exporter
+import xmlrpclib 
+import conf
 
-from config import *
+def upload( site, page, title, content_file ):
+    # site: 指定該頁面要上傳的 site
+    api_app_name, api_app_key = conf.get_api_name_and_key( site )
+
+    # page, title, content: 可以由該頁面的資料來取得
+    content = ""
+    for line in file(content_file):
+        content += line
+
+    #print('https://%s:%s@www.wikidot.com/xml-rpc-api.php' % ( api_app_name, api_app_key ) )
+    #print({'site' : site, 'page' : page, 'title' : title, 'source' : content})
+    srvProxy = xmlrpclib.ServerProxy('https://%s:%s@www.wikidot.com/xml-rpc-api.php' % ( api_app_name, api_app_key ) )
+    srvProxy.page.save({'site' : site, 'page' : page, 'title' : title, 'source' : content})
 
 # notebook_path => NoteBook 的根目錄
 # page_path     => 指定頁面的路徑,原始檔
@@ -57,6 +73,8 @@ def main( notebook_path, page_path, tmpfile_path ):
     cmd = "zenity --text-info --filename=" + out_f.name
     subprocess.Popen([ cmd ], shell=True ).communicate()
 
+    # TODO: 將 site, page, title 這三個參數用該頁的資料來取得 
+    upload( "hackingthursday", "test2", "zim 2 wikidot 上傳測試...", out_f.name )
     
     # 執行完後，清掉暫存檔
     os.remove ( out_f.name )
