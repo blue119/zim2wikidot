@@ -19,8 +19,10 @@ import conf
 def upload( site, page, title, content_file ):
     # site: 指定該頁面要上傳的 site
     api_app_name, api_app_key = conf.get_api_name_and_key( site )
+       
+    if api_app_name == None or api_app_key == None:
+        return False
 
-    # page, title, content: 可以由該頁面的資料來取得
     content = ""
     for line in file(content_file):
         content += line
@@ -30,6 +32,8 @@ def upload( site, page, title, content_file ):
     srvProxy = xmlrpclib.ServerProxy('https://%s:%s@www.wikidot.com/xml-rpc-api.php' % ( api_app_name, api_app_key ) )
     srvProxy.page.save({'site' : site, 'page' : page, 'title' : title, 'source' : content})
 
+    return True
+
 # notebook_path => NoteBook 的根目錄
 # page_path     => 指定頁面的路徑,原始檔
 # tmpfile_path  => 指定頁面的路徑,暫存檔
@@ -37,7 +41,7 @@ def main( notebook_path, page_path, tmpfile_path ):
     out_d = tempfile.mkdtemp()
     out_f = file( tempfile.mktemp(), 'a+' )
 
-    tmpl_file = "/tmp/_New.txt"
+    tmpl_file = conf.get_template_file()
 
     # 設定轉出格式跟範本
     #tmpl = zim.templates.get_template('wiki', '_New')
