@@ -73,12 +73,19 @@ def main( notebook_path, page_path, tmpfile_path ):
     out_f.writelines( l.encode('utf-8') for l in lines  )
     out_f.close()
 
-    # 用 zim 來顯示結果
-    cmd = "zenity --text-info --filename=" + out_f.name
-    subprocess.Popen([ cmd ], shell=True ).communicate()
+    ## # 用 zim 來顯示結果
+    ## cmd = "zenity --text-info --filename=" + out_f.name
+    ## subprocess.Popen([ cmd ], shell=True ).communicate()
 
-    # TODO: 將 site, page, title 這三個參數用該頁的資料來取得 
-    upload( "hackingthursday", "test2", "zim 2 wikidot 上傳測試...", out_f.name )
+    # 上傳前，詢問確定
+    cmd = 'zenity --question --text="確定要上傳?"; echo -n $?'
+    answer = subprocess.Popen([ cmd ], shell=True ).communicate()[0]
+    if answer == "0":
+        # TODO: 將 site, page, title 這三個參數用該頁的資料來取得 
+        upload( "hackingthursday", "test2", "zim 2 wikidot 上傳測試...", out_f.name )
+    else:
+        # 取消上傳
+        print "Cancel ..."
     
     # 執行完後，清掉暫存檔
     os.remove ( out_f.name )
