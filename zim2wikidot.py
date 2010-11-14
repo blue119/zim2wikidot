@@ -18,11 +18,15 @@ from config import *
 # page_path     => 指定頁面的路徑,原始檔
 # tmpfile_path  => 指定頁面的路徑,暫存檔
 def main( notebook_path, page_path, tmpfile_path ):
+    out_d = tempfile.mkdtemp()
     out_f = file( tempfile.mktemp(), 'a+' )
 
-    # 設定轉出格式
-    tmpl = zim.templates.get_template('wiki', '_New')
+    tmpl_file = "/tmp/_New.txt"
+
+    # 設定轉出格式跟範本
+    #tmpl = zim.templates.get_template('wiki', '_New')
     #tmpl = zim.templates.get_template('html', 'Default')
+    tmpl = zim.templates.get_template('wiki', zim.fs.File(tmpl_file) )
 
     # 選定 Notebook
     ##nb = zim.notebook.get_default_notebook()
@@ -36,22 +40,27 @@ def main( notebook_path, page_path, tmpfile_path ):
     path_array += pg_path.relpath( nb_path ).split('/')
     #path = zim.notebook.Path( path_array )
     path = ':'.join( path_array )
+    if path[-4:] == u".txt":
+        path = path[:-4]
 
     # 取得 ":xxx:yyy" zim 內用的頁面路徑
-    p1 = nb.resolve_path( path )
+    page = nb.get_page( nb.resolve_path( path ) )
     #pdb.set_trace()
 
-    sys.stdout.writelines( tmpl.process(nb, p1) )
+    lines = tmpl.process(nb, page )
 
-    out_f.writelines( tmpl.process(nb, p1) )
+    #sys.stdout.writelines( l.encode('utf-8') for l in lines )
+    out_f.writelines( l.encode('utf-8') for l in lines  )
     out_f.close()
 
+    # 用 zim 來顯示結果
     cmd = "zenity --text-info --filename=" + out_f.name
     subprocess.Popen([ cmd ], shell=True ).communicate()
 
     
     # 執行完後，清掉暫存檔
     os.remove ( out_f.name )
+    shutil.rmtree(out_d)
 
 
 ## 將下列這一行，安裝至 custom tools 的項目:
