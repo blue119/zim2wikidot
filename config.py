@@ -34,18 +34,22 @@ def get_all_config(zim_root):
 
     all_config = []
 
-    for config_file in os.listdir(directory):
-        if not re.match(CONFIG_FORMAT, config_file):
-            continue
+    #for config_file in os.listdir(directory):
+    #    if not re.match(CONFIG_FORMAT, config_file):
+    #        continue
 
-        config_file = os.path.join(directory, config_file)
+    #    config_file = os.path.join(directory, config_file)
 
-        if not os.path.isfile(config_file):
-            continue
+    #    if not os.path.isfile(config_file):
+    #        continue
 
-        config = read_config(config_file)
+    config_file = os.path.join( directory, "config.txt" );
 
-        if config:
-            all_config.append(config)
+    assert os.path.isfile(config_file)
+
+    config = read_config(config_file)
+
+    if config:
+        all_config.append(config)
 
     return all_config
