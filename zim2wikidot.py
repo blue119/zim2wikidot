@@ -73,16 +73,22 @@ def main( notebook_path, page_path, tmpfile_path ):
     out_f.writelines( l.encode('utf-8') for l in lines  )
     out_f.close()
 
-    ## # 用 zim 來顯示結果
-    ## cmd = "zenity --text-info --filename=" + out_f.name
-    ## subprocess.Popen([ cmd ], shell=True ).communicate()
+    # 用 zim 來顯示結果
+    #cmd = "zenity --text-info --filename=" + out_f.name
+    #subprocess.Popen([ cmd ], shell=True ).communicate()
 
     # 上傳前，詢問確定
     cmd = 'zenity --question --text="確定要上傳?"; echo -n $?'
-    answer = subprocess.Popen([ cmd ], shell=True ).communicate()[0]
+    answer = subprocess.Popen([ cmd ], shell=True, stdout=subprocess.PIPE ).communicate()[0]
+    #print type( answer )
+    #print answer
     if answer == "0":
         # TODO: 將 site, page, title 這三個參數用該頁的資料來取得 
-        upload( "hackingthursday", "test2", "zim 2 wikidot 上傳測試...", out_f.name )
+        ret = upload( "hackingthursday", "test2", "zim 2 wikidot 上傳測試...", out_f.name )
+        if ret == True:
+            cmd = 'zenity --info --text="上傳完成"'
+            subprocess.Popen([ cmd ], shell=True).communicate()
+            
     else:
         # 取消上傳
         print "Cancel ..."
