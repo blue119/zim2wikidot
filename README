@@ -1,3 +1,40 @@
+1. 設定 Custom tools
+
+在 Zim 的最上方的選單 Tools >> Custom Tools 下，新增一個項目。
+將其中 Command: 的欄位指定為:
+
+	/usr/local/bin/zim2wikidot.py %f %d %s %n %D %t
+
+2. 設定檔
+
+編輯 $HOME/.zim2wikidot.conf 的設定如下:
+
+	[default]
+	template = ~/.zim2wikidot.tmpl
+
+	[hackingthursday]
+	api_name = h4_w**********ater 
+	api_key = niGf************************vZQI
+
+其而 [default] 是保留的設定區，而 [hackingthursday] 則是上傳站的項目
+
+
+3. Template 設定檔
+
+編輯 ~/.zim2wikidot.tmpl ( 或是設定檔指定的其他檔案 )
+
+	[% page.body %]
+
+4. 設定完成
+
+在 zim 開某個 page 後，使用 zim2wikidot custom tool 就可以上傳至
+
+	http://hackingthursday.wikidot.com/test2
+
+目前是寫死的。
+
+==== 以下是 blue119 整理的語法筆記 ====
+
 zim and wikidot format mapping
 
 Heading :        zim        ->  wikidot

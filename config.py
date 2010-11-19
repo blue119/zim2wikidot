@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
+#
+# Author: ChangZhuo Chen (czchen) <czchen@gmail.com>
+#
 
 import os
 import re

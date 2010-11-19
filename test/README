@@ -1,0 +1,4 @@
+
+PYTHONPATH=".." ./test_config_dot_py.py
+
+PYTHONPATH=".." ./test_zim2wikidot_dot_py.py
