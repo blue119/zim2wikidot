@@ -101,6 +101,7 @@ def main( notebook_path, page_path, tmpfile_path ):
 ## 將下列這一行，安裝至 custom tools 的項目:
 ##   $( readlink -f zim2wikidot.py) %f %d %s %n %D %t
 ##
+# TODO: 有幾項參數沒用到 %D, %t, 應該要簡化參數的設定
 if __name__ == '__main__':
     if sys.argv.__len__() == 7:
         sys.argv[1]  # "%f: " => temperary
