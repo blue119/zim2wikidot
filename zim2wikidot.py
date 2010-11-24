@@ -42,7 +42,17 @@ def main( notebook_path, page_path, tmpfile_path ):
     out_f = file( tempfile.mktemp(), 'a+' )
 
     # TODO: format 跟 template 可能每個站的設定配對不同，應該要再加一個指定站的參數
-    format = conf.get_format_file_or_name()
+    format_name_or_path = conf.get_format_file_or_name()
+    format_file =  zim.fs.File( format_name_or_path )
+    if format_file.exists() :
+        name = format_file.basename
+        if name[-3:] == ".py":
+            name = name[:-3]
+        sys.path.append( format_file.dir.path )
+        format = __import__( name )
+    else:
+        format = format_name_or_path
+    
     tmpl_file = conf.get_template_file()
 
     # 設定轉出格式跟範本
@@ -77,8 +87,8 @@ def main( notebook_path, page_path, tmpfile_path ):
     out_f.close()
 
     # 用 zim 來顯示結果
-    #cmd = "zenity --text-info --filename=" + out_f.name
-    #subprocess.Popen([ cmd ], shell=True ).communicate()
+    cmd = "zenity --text-info --filename=" + out_f.name
+    subprocess.Popen([ cmd ], shell=True ).communicate()
 
     # 上傳前，詢問確定
     cmd = 'zenity --question --text="確定要上傳?"; echo -n $?'
