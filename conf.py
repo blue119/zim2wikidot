@@ -39,6 +39,23 @@ def get_template_file():
 
     return result
 
+def get_format_file_or_name():
+    result = "plain" # 預設結果為 plain 的格式
+
+    cf = ConfigParser.ConfigParser()
+    config_file_path = os.path.join( os.getenv('HOME'), ".zim2wikidot.conf" )
+    # TODO: 對 config_file 作 fail-safe
+    cf.read( config_file_path )
+
+    sec = "default"
+    if cf.has_section( sec ):
+
+        format_file = cf.get( sec, "format" )
+        if format_file!= None:
+            result = format_file
+
+    return result
+
 
 # 以上的部分是用於函式庫引用 import
 # 以下的部分是用於個別的命令列執行測試

@@ -41,12 +41,15 @@ def main( notebook_path, page_path, tmpfile_path ):
     out_d = tempfile.mkdtemp()
     out_f = file( tempfile.mktemp(), 'a+' )
 
+    # TODO: format 跟 template 可能每個站的設定配對不同，應該要再加一個指定站的參數
+    format = conf.get_format_file_or_name()
     tmpl_file = conf.get_template_file()
 
     # 設定轉出格式跟範本
     #tmpl = zim.templates.get_template('wiki', '_New')
     #tmpl = zim.templates.get_template('html', 'Default')
-    tmpl = zim.templates.get_template('wiki', zim.fs.File(tmpl_file) )
+    tmpl = zim.templates.get_template( format, zim.fs.File(tmpl_file) )
+    # TODO: 在這裡檢查是否有正確取得 template exporter, 若沒有則提示錯誤
 
     # 選定 Notebook
     ##nb = zim.notebook.get_default_notebook()
