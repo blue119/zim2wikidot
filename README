@@ -57,3 +57,6 @@ Format - zim				->	wikidot
 		_{Subscript}		->	^^superscript^^
 		^{Superscript}		->	,,subscript,,
 
+Custom meta-data for zim page
+zim2wikidot-site: site
+zim2wikidot-page: page
