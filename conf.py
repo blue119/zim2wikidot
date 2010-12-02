@@ -9,7 +9,6 @@ def get_api_name_and_key( site ):
 
     cf = ConfigParser.ConfigParser()
     config_file_path = os.path.join( os.getenv('HOME'), ".zim2wikidot.conf" )
-    # TODO: 對 config_file 作 fail-safe
     cf.read( config_file_path )
 
     sec = site
@@ -27,7 +26,6 @@ def get_template_file():
 
     cf = ConfigParser.ConfigParser()
     config_file_path = os.path.join( os.getenv('HOME'), ".zim2wikidot.conf" )
-    # TODO: 對 config_file 作 fail-safe
     cf.read( config_file_path )
 
     sec = "default"
@@ -44,7 +42,6 @@ def get_format_file_or_name():
 
     cf = ConfigParser.ConfigParser()
     config_file_path = os.path.join( os.getenv('HOME'), ".zim2wikidot.conf" )
-    # TODO: 對 config_file 作 fail-safe
     cf.read( config_file_path )
 
     sec = "default"

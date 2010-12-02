@@ -15,6 +15,7 @@ import shutil
 import pdb
 import xmlrpclib 
 import conf
+import ConfigParser
 
 def upload( site, page, title, content_file ):
     # site: 指定該頁面要上傳的 site
@@ -125,4 +126,11 @@ if __name__ == '__main__':
         sys.argv[6]  # "%t: " 
         
         print  sys.argv[4], sys.argv[3], sys.argv[1]
-        main( sys.argv[4], sys.argv[3], sys.argv[1] )
+
+        try:
+            main( sys.argv[4], sys.argv[3], sys.argv[1] )
+
+        # Handle config error
+        except ConfigParser.ParsingError as e:
+            cmd = 'zenity --warning --text="' + str(e) + '"'
+            subprocess.Popen([ cmd ], shell=True ).communicate()
